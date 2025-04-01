@@ -56,7 +56,7 @@ pipeline {
                     sh "docker pull ${DOCKER_IMAGE}:latest"
                     sh "pwd"
                     sh "whoami"
-                    sh "sudo rsync -av ../php-jenkins-cicd /var/www/html/"
+                    sh "sudo rsync -av --chown=www-data:www-data ./php-jenkins-cicd /var/www/html/"
                     sh "docker-compose ps | grep 'Up' >/dev/null 2>&1 && docker-compose down -v || true"
                     sh "docker-compose up -d"
                     sh "pwd"
