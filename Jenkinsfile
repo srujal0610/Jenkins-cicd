@@ -56,7 +56,9 @@ pipeline {
                     sh "docker pull ${DOCKER_IMAGE}:latest"
                     sh "pwd"
                     sh "whoami"
-                    sh "sudo rsync -av --chown=www-data:www-data ./php-jenkins-cicd /var/www/html/"
+                    sh "cd .."
+                    sh "sudo rsync -av --chown=www-data:www-data php-jenkins-cicd /var/www/html/"
+                    sh "cd php-jenkins-cicd/"
                     sh "docker-compose ps | grep 'Up' >/dev/null 2>&1 && docker-compose down -v || true"
                     sh "docker-compose up -d"
                     sh "pwd"
@@ -69,6 +71,9 @@ pipeline {
     post {
         always {
             echo "Pipeline completed."
+            sh "cd .."
+            sh "pwd"
+            // sh "rm -r *"
         }
     }
 }
