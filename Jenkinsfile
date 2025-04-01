@@ -22,7 +22,7 @@ pipeline {
                     sh "whoami"
                     sh "id"
                     sh "ip addr show | grep inet | head -n 3 | tail -n 1"
-                    sh "docker build -t ${DOCKER_IMAGE}:${pipelineId} ."
+                    sh "docker build -t ${DOCKER_IMAGE}:php_${pipelineId} ."
                 }
             }
         }
@@ -41,8 +41,10 @@ pipeline {
             steps {
                 script {
                     def pipelineId = env.BUILD_ID
-                    sh "docker push ${DOCKER_IMAGE}:${pipelineId}"
-                    echo "Push to docker hub stage successful"
+                    sh "docker push ${DOCKER_IMAGE}:php_${pipelineId}"
+                    sh "docker tag ${DOCKER_IMAGE}:php_${pipelineId} ${DOCKER_IMAGE}:latest"
+                    sh "docker push ${DOCKER_IMAGE}:latest"
+                    echo "Pushed current version image and latest version image to docker hub"
                 }
             }
         }
@@ -54,10 +56,9 @@ pipeline {
                     sshagent(['remote-server-credentials']) {
                         sh """
                         ssh -o StrictHostKeyChecking=no st07061901@192.168.1.218 \
-                        "docker pull ${DOCKER_IMAGE}:${pipelineId} && \
-                        docker stop ${CONTAINER_NAME} || true && \
-                        docker rm ${CONTAINER_NAME} || true && \
-                        docker run -d --name ${CONTAINER_NAME} -p 3001:3001 ${DOCKER_IMAGE}:${pipelineId} && \
+                        "docker pull ${DOCKER_IMAGE}:latest && \
+                        docker compose ps | grep "Up" && docker compose down && \
+                        docker-compose up -d && \
                         echo 'Deployment completed and successful'"
                         """
                     }
