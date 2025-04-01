@@ -9,6 +9,11 @@ pipeline {
     }
 
     stages {
+        stage('Cleanup Workspace') {
+            steps {
+                deleteDir() // Cleans the workspace before the build
+            }
+        }
         stage('Checkout Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/srujal0610/Jenkins-cicd.git'
@@ -57,6 +62,7 @@ pipeline {
                     sh "pwd"
                     sh "whoami"
                     sh "cd .."
+                    sh "pwd"
                     sh "sudo rsync -av --chown=www-data:www-data php-jenkins-cicd /var/www/html/"
                     sh "cd php-jenkins-cicd/"
                     sh "docker-compose ps | grep 'Up' >/dev/null 2>&1 && docker-compose down -v || true"
