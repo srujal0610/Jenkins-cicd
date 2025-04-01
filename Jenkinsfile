@@ -57,7 +57,7 @@ pipeline {
                         sh """
                         ssh -o StrictHostKeyChecking=no st07061901@192.168.1.218 \
                         "docker pull ${DOCKER_IMAGE}:latest && \
-                        docker-compose ps | grep "Up" && docker-compose down -v && \
+                        (docker-compose ps | grep 'Up' >/dev/null 2>&1 && docker-compose down -v || true) && \
                         docker-compose up -d && \
                         echo 'Deployment completed and successful'"
                         """
