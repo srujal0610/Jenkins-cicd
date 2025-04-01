@@ -1,5 +1,5 @@
 pipeline {
-    agent dhruv
+    agent { label 'dhruv' }
 
     environment {
         DOCKER_IMAGE = "stdocker2901/docker-training"
@@ -53,14 +53,11 @@ pipeline {
             steps {
                 script {
                     def pipelineId = env.BUILD_ID
-                    sshagent(['remote-server-credentials']) {
-                        sh """
-                        ssh -o StrictHostKeyChecking=no st07061901@192.168.1.218 \
-                        "docker pull ${DOCKER_IMAGE}:latest && \
-                        (docker-compose ps | grep 'Up' >/dev/null 2>&1 && docker-compose down -v || true) && \
-                        docker-compose up -d && \
-                        echo 'Deployment completed and successful'"
-                        """
+                    sh "docker pull ${DOCKER_IMAGE}:latest"
+                    pwd
+                    // sh "docker-compose ps | grep 'Up' >/dev/null 2>&1 && docker-compose down -v || true"
+                    // sh "docker-compose up -d"
+                    echo "Deployment stage completed"
                     }
                 }
             }
