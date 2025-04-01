@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Template for displaying documents as a snippet -->
+    <template id="doc_snippet" name="Document Snippet">
+        <!-- A section to hold the content -->
+        <section class="container dynamic_snippet">
+            <div class="row">
+                <div class="col-md-12"><br/>
+                    <!-- Header for the document section -->
+                    <h1>Documents</h1><br/>
+                    <!-- Container to dynamically load documents -->
+                    <div class="documents">
+                        <!-- Looping through the 'documents' variable and displaying each document -->
+                        <t t-foreach="documents" t-as="document">
+                            <!-- Escaping each document (typically for rendering content safely) -->
+                            <t t-esc="document"/>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Template for inheriting and adding the document snippet to a website snippet -->
+    <template id="document_snippet" inherit_id="website.snippets" name="Document Snippet">
+        <!-- Using XPath to insert the custom 'doc_snippet' into the 'snippet_content' section of the base website snippet -->
+        <xpath expr="//snippets[@id='snippet_content']" position="inside">
+            <!-- Referencing the 'doc_snippet' template inside the 'website.snippets' template -->
+            <t t-snippet="st_doc_snippet.doc_snippet"/>
+        </xpath>
+    </template>
+</odoo>

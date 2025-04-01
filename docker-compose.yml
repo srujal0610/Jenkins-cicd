@@ -1,0 +1,121 @@
+version: '3' 
+
+services: 
+
+  postgres: 
+
+    image: postgres:13 
+
+    container_name: postgres-db 
+
+    ports: 
+
+      - "5432:5432" 
+
+    environment: 
+
+      POSTGRES_DB: postgres 
+
+      POSTGRES_USER: odoo 
+
+      POSTGRES_PASSWORD: postgres 
+
+    volumes: 
+
+      - ./postgres/data:/var/lib/postgresql/data 
+
+      - ./postgres/logs:/var/log/postgresql 
+
+    healthcheck: 
+
+      test: ["CMD-SHELL", "pg_isready -U odoo"] 
+
+      interval: 30s 
+
+      timeout: 10s 
+
+      retries: 5 
+
+    restart: always 
+
+    labels: 
+
+      - "autoheal=true" 
+
+    networks: 
+
+      - default 
+
+  odoo: 
+
+    image: odoo:18 
+
+    container_name: odoo18-web 
+
+    depends_on: 
+
+      - postgres 
+
+    ports: 
+
+      - "8069:8069" 
+
+      - "8072:8072" 
+
+    environment: 
+
+      - HOST=postgres 
+
+      - USER=odoo 
+
+      - PASSWORD=postgres 
+
+    volumes: 
+
+      - ./extra-addons/enterprise-addons:/mnt/extra-addons/enterprise-addons 
+
+      - ./extra-addons/custom-addons:/mnt/extra-addons/custom-addons 
+
+      - ./conf/odoo.conf:/etc/odoo/odoo.conf 
+
+      - ./logs:/var/log/odoo 
+
+      - odoo17_web_data:/var/lib/odoo 
+
+    healthcheck: 
+
+      test: ["CMD", "curl", "--insecure", "--fail", "http://localhost:8069"] 
+
+      interval: 30s 
+
+      timeout: 10s 
+
+      retries: 3 
+
+      start_period: 15s 
+
+    restart: always 
+
+    stdin_open: true 
+
+    tty: true 
+
+    labels: 
+
+      - "autoheal=true" 
+
+    networks: 
+
+      - default 
+
+volumes: 
+
+  odoo17_web_data: 
+
+networks: 
+
+  default: 
+
+    external: 
+
+      name: odoo-docker-network 

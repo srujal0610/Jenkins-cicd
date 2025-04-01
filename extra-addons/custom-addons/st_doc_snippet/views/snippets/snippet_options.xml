@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="custom_snippet_options" inherit_id="website.snippet_options">
+      <xpath expr="." position="inside">
+          <div data-selector=".dynamic_snippet">
+              <we-select class="document_category" string="Select Category" placeholder="Choose a category">
+                  <t t-foreach="folders" t-as="category">
+                      <we-option t-att-value="category" t-esc="category"/>
+                  </t>
+              </we-select>
+          </div>
+        </xpath>
+    </template>
+</odoo>

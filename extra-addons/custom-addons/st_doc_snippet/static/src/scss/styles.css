@@ -1,0 +1,47 @@
+.document-card {
+    margin-bottom: 30px; /* Space between rows */
+}
+
+.card {
+    width: 100%; /* Make the card take the full width of the column */
+    height: 350px; /* Fixed height for the card */
+    display: flex; /* Use flexbox to align items */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Space out children */
+    border: 1px solid #ddd; /* Light border for the card */
+    border-radius: 5px; /* Rounded corners */
+    overflow: hidden; /* Prevent overflow */
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.card-img-top {
+    height: 150px; /* Fixed height for images */
+    object-fit: cover; /* Cover the area without distortion */
+}
+
+.card-body {
+    flex-grow: 1; /* Allow the body to grow and fill space */
+}
+
+.card-title {
+    font-size: 1.2em; /* Larger font size for title */
+    font-weight: bold; /* Bold title */
+}
+
+.card-text {
+    font-size: 0.9em; /* Smaller font size for file type */
+    color: #666; /* Gray color for file type */
+}
+
+.btn {
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none; /* Remove border */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
