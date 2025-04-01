@@ -54,7 +54,7 @@ pipeline {
                 script {
                     def pipelineId = env.BUILD_ID
                     sh "docker pull ${DOCKER_IMAGE}:latest"
-                    pwd
+                    sh "pwd"
                     // sh "docker-compose ps | grep 'Up' >/dev/null 2>&1 && docker-compose down -v || true"
                     // sh "docker-compose up -d"
                     echo "Deployment stage completed"
