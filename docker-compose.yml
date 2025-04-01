@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   php-apache:
-    image: stdocker2901/php-sample:latest
+    image: stdocker2901/docker-training:latest
     container_name: php_app
     ports:
       - "8081:80"
