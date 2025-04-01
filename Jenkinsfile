@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent dhruv
 
     environment {
         DOCKER_IMAGE = "stdocker2901/docker-training"
