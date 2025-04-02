@@ -50,6 +50,8 @@ pipeline {
                     sh "docker tag liferay-jenkins-cicd-liferay:7.4.13-u112 ${DOCKER_IMAGE}:latest"
                     sh "docker push ${DOCKER_IMAGE}:latest"
                     echo "Pushed latest version image to docker hub"
+                    sh "sudo apt install sshpass -y"
+                    echo "Also installed sshpass for remote server access"
                 }
             }
         }
@@ -58,13 +60,13 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'st07061901-worker-node', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
-                        sh """
+                        sh '''
                             sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@192.168.1.218 \
                             "whoami && \
                             pwd && \
                             echo 'Started the deployment stage' && \
                             echo 'Deployment completed and successful'"
-                        """
+                        '''
                     }
 
                 }
