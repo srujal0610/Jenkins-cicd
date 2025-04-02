@@ -1,0 +1,13 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<odoo>-->
+
+<!--&lt;!&ndash; Snippets menu &ndash;&gt;-->
+<!--<template id="snippets" inherit_id="web_editor.snippets" primary="True" groups="base.group_user">-->
+<!--    <xpath expr="//t[@id='default_snippets']" position="replace">-->
+<!--        <t id="default_snippets">-->
+<!--            <t t-set="cta_btn_text" t-value="False"/>-->
+<!--            <t t-set="cta_btn_href">/contactus</t>-->
+
+<!--            &lt;!&ndash; Snippet groups &ndash;&gt;-->
+<!--            <snippets id="snippet_groups" string="Categories">-->
+<!--                <t snippet-group="custom" t-snippet="website.s_snippet_group" string="Custom"/>-->

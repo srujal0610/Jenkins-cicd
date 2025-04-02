@@ -1,0 +1,187 @@
+<odoo>
+    <!-- Form View for School Student -->
+    <record id="view_school_student_form" model="ir.ui.view">
+        <field name="name">school.student.form</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <form string="School Student">
+
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="Student Name" required='1'/>
+                            <field name="dob" widget="date" required='1' readonly="1"/>
+                            <button name="%(action_change_dob_wizard)d" string="Change DOB" type="action" class="btn-primary"/>
+                            <field name="age"/>
+                            <field name="gender" widget="radio" options="{'horizontal':true}" required='1'/>
+                            <field name="address" required='1'/>
+                            <field name="permanent_address"/>
+                            <field name="pincode" required='1'/>
+                            <field name="user_id" required='1'/>
+                        </group>
+                        <group>
+                            <field name="roll_number" string="Roll Number"/>
+                            <field name="contact_no" required='1'/>
+                            <field name="blood_group" widget="selection" required='1'/>
+                            <field name="percent" required='1'/>
+                            <field name="isDiabetic" widget="checkbox"/>
+                            <field name="transportation" required='1'/>
+                            <field name="attendance"/>
+                            <button name="button_click" type="object" string="Visit Website" class="oe_highlight"/>
+                        </group>
+                        <group>
+                            <field name="subjects"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Academic Information">
+                            <group>
+                                <field name="grade" string="Grade"/>
+                            </group>
+                        </page>
+                        <page string="Sports">
+                            <group>
+                                <field name="sports_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                        <page string="Financial Info">
+                            <group>
+                                <field name="currency_id" string="Fee Currency"/>
+                                <field name="fee_amount" string="Tuition Fee Amount"/>
+                                <field name="scholarship_amount" string="Scholarship Amount"/>
+                                <field name="final_fee" string="Amount to be paid" widget="monetary"/>
+                            </group>
+                        </page>
+                        <page string="Additional Info">
+                            <group>
+                                <field name="photo" widget="image"/>
+                                <field name="sign" widget="signature"/>
+                            </group>
+                            <group>
+                                <field name="description" widget="html"/>
+                                <field name="my_attachment_ids" widget="many2many_binary"/>
+                            </group>
+                        </page>
+                        <page string="Report Cards">
+                            <list string="">
+
+                            </list>
+                            <button name="create_report_card" string="New" type="object"/>
+                        </page>
+                    </notebook>
+                </sheet>
+               <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_school_student_list" model="ir.ui.view">
+        <field name="name">School Students List View</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <list string="School Students List">
+                <field name="name" string="Student Name"/>
+                <field name="dob" string="Date of Birth"/>
+                <field name="address" string="Address"/>
+                <field name="pincode" string="Pincode"/>
+                <field name="contact_no" string="Contact No"/>
+                <field name="blood_group" string="Blood Group"/>
+                <field name="percent" string="Percentage"/>
+                <field name="transportation" string="Transportation"/>
+                <field name="currency_id" string="Fee Currency" column_invisible="1"/>
+                <field name="fee_amount" string="Fee Amount" widget="monetary"/>
+
+            </list>
+        </field>
+    </record>
+
+    <record id="view_school_student_graph" model="ir.ui.view">
+            <field name="name">School Students Graph View</field>
+            <field name="model">school.student</field>
+            <field name="arch" type="xml">
+                <graph string="Activities Analysis" sample="1">
+                    <field name="name"/>
+                </graph>
+            </field>
+        </record>
+
+    <record id="view_school_student_calendar" model="ir.ui.view">
+        <field name="name">School Students Calendar View</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <calendar string="Birthdays" date_start="next_birthday">
+                <field name="next_birthday"/>
+            </calendar>
+
+        </field>
+    </record>
+
+
+    <record id="view_school_student_kanban" model="ir.ui.view">
+            <field name="name">School Students Kanban View</field>
+            <field name="model">school.student</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+
+                    <templates>
+                        <t t-name="card" class="flex-row">
+
+                            <main class="w-100 ps-2 pt-1">
+                                <div>
+                                    <div class="text-success float-end mb4">
+
+                                            <field name="photo" widget="image" class="img-fluid rounded-circle" style="width: 100px; height: 100px; object-fit: cover;"/>
+
+                                    </div>
+<!--                                    <div class="text-danger float-end mb4">-->
+<!--&lt;!&ndash;                                        <i class="fa fa-circle" role="img" aria-label="Invalid" title="Invalid"></i>&ndash;&gt;-->
+<!--                                    </div>-->
+                                    <field class="fw-bold" name="name"/>
+                                    <br/>
+                                    <b>DOB: </b><field name="dob" string="Date of Birth"/>
+                                </div>
+
+                            </main>
+                        </t>
+                    </templates>
+                </kanban>
+
+            </field>
+    </record>
+
+    <record id="view_school_student_search" model="ir.ui.view">
+        <field name="name">Student Search</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="blood_group"/>
+                <field name="address"/>
+                <field name="transportation"/>
+                <group string="Group By">
+                    <filter string="Transportation" name="transportation" context="{'group_by':'transportation'}"/>
+                    <filter string="Blood Group" name="blood_group" context="{'group_by':'blood_group'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_school_student" model="ir.actions.act_window">
+        <field name="name">School Students</field>
+        <field name="res_model">school.student</field>
+        <field name="view_mode">list,form,kanban,calendar,graph,search</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_create">
+                Create a new student record
+            </p>
+        </field>
+    </record>
+
+
+
+    <menuitem id="school_management_menu" name="School Management" sequence="10"/>
+    <menuitem id="menu_school_students" name="Student Details" parent="school_management_menu"
+              action="action_school_student"
+              sequence="10"/>
+</odoo>

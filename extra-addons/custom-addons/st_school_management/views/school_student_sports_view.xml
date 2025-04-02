@@ -1,0 +1,36 @@
+<odoo>
+    <record id="view_sports_form" model="ir.ui.view">
+        <field name="name">school.sports.form</field>
+        <field name="model">school.sports</field>
+        <field name="arch" type="xml">
+            <form string="Sports">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="students_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_sports_list" model="ir.ui.view">
+        <field name="name">school.sports.list</field>
+        <field name="model">school.sports</field>
+        <field name="arch" type="xml">
+            <list string="Sports">
+                <field name="name"/>
+                <field name="students_ids"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_sports" model="ir.actions.act_window">
+        <field name="name">Sports</field>
+        <field name="res_model">school.sports</field>
+        <field name="view_id" ref="view_sports_list"/>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_sports" name="Sports" sequence="20" action="action_sports" parent="school_management_menu"/>
+</odoo>

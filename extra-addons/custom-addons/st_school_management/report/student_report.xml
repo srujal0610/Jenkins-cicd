@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="student_report">
+          <t t-foreach="docs" t-as="o">
+              <t t-call="web.html_container">
+               <t t-call="web.external_layout">
+                   <div class="page">
+                       <div class="oe_structure"/>
+                       <h2>Student Report</h2>
+                       <br></br>
+                       <p>
+                           Name :  <span t-field="o.student_id"/>
+                       </p>
+                       <p>
+                           Maths:  <span t-field="o.maths_marks"/>&#160;
+                           Out of: <span t-field="o.maths_total_marks"/>
+                       </p>
+                       <p>
+                           Chemistry:  <span t-field="o.chemistry_marks"/>&#160;
+                           Out of: <span t-field="o.chemistry_total_marks"/>
+                       </p>
+                       <p>
+                           Physics:  <span t-field="o.physics_marks"/>&#160;
+                           Out of: <span t-field="o.physics_total_marks"/>
+                       </p>
+                       <p>
+                           Total:  <span t-field="o.total_marks"/>&#160;
+                           Percentage: <span t-field="o.percentage"/>
+                       </p>
+                   </div>
+               </t>
+              </t>
+           </t>
+    </template>
+</odoo>

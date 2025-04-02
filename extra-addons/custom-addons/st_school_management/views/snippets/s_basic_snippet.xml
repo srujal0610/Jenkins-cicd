@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <template id="s_test_snippet" name="Test Snippet">
+        <section class="s_test_snippet" data-snippet="s_test_snippet" data-name="s_test_snippet">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Basic Snippet.........</h1>
+                    <p>This is a basic snippet that is used to test the basic functionality of the snippets.</p>
+                </div>
+            </div>
+        </section>
+     </template>
+    <template id="s_basic_snippet" name="Basic Snippet">
+        <section class="s_basic_snippet" data-snippet="s_basic_snippet" data-name="s_basic_snippet">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Basic Snippet.........</h1>
+                    <p>This is a basic snippet that is used to test the basic functionality of the snippets.</p>
+                </div>
+            </div>
+        </section>
+     </template>
+     <template id="external_snippets" inherit_id="website.snippets" priority="8">
+        <xpath expr="//snippets[@id='snippet_content']" position="inside">
+            <t t-snippet="st_school_management.s_test_snippet"/>
+        </xpath>
+         <xpath expr="//snippets[@id='snippet_content']" position="inside">
+            <t t-snippet="st_school_management.s_basic_snippet"/>
+        </xpath>
+     </template>
+</odoo>
