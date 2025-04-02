@@ -59,28 +59,20 @@ pipeline {
         stage('Deploy on Remote Server') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'st07061901-worker-node', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'st07061901-liferay-user', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
                         sh '''
-                            ssh -o StrictHostKeyChecking=no liferay@192.168.1.218 \
-                            "cd /opt/liferay && \
-                            docker pull ${DOCKER_IMAGE}:latest && \
+                            sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@192.168.1.218 \
+                            "whoami && \
+                            pwd && \
+                            cd /opt/liferay && \
+                            docker pull ${DOCKER_IMAGE}:latest
                             docker-compose restart && \
                             echo 'Started the deployment stage' && \
                             echo 'Deployment completed and successful'"
                         '''
                     }
-
                 }
             }
         }
     }
-
-    // post {
-    //     always {
-    //         echo "Pipeline completed."
-    //         sh "cd .."
-    //         sh "pwd"
-    //         // sh "rm -r *"
-    //     }
-    // }
 }
