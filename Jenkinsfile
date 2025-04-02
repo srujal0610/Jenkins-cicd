@@ -5,19 +5,19 @@ pipeline {
         DOCKER_IMAGE = "stdocker2901/docker-training"
         DOCKER_CREDENTIALS = "dockerhub-credentials"
         REMOTE_SSH = "remote-server-credentials"
-        CONTAINER_NAME = "node-app"
     }
 
     stages {
         stage('Cleanup Workspace') {
             steps {
-                deleteDir() // Cleans the workspace before the build
+                deleteDir() 
             }
         }
         stage('Checkout Code') {
             steps {
                 sh "pwd"
                 sh "whoami"
+                sh "ifconfig "
                 git branch: 'main', url: 'https://github.com/srujal0610/Jenkins-cicd.git'
             }
         }
@@ -29,7 +29,7 @@ pipeline {
                     sh "chmod +x gradlew"
                     sh "./gradlew clean"
                     sh "./gradlew buildDockerImage -Pliferay.workspace.environment=prod"
-                    sh "docker build -t ${DOCKER_IMAGE}:lr_${pipelineId} ."
+                    echo "build liferay image successfully"
                 }
             }
         }
@@ -39,22 +39,20 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
                     sh "echo dockerhub login successfull"
-
                 }
             }
         }
 
-        // stage('Push Docker Image') {
-        //     steps {
-        //         script {
-        //             def pipelineId = env.BUILD_ID
-        //             sh "docker push ${DOCKER_IMAGE}:php_${pipelineId}"
-        //             sh "docker tag ${DOCKER_IMAGE}:php_${pipelineId} ${DOCKER_IMAGE}:latest"
-        //             sh "docker push ${DOCKER_IMAGE}:latest"
-        //             echo "Pushed current version image and latest version image to docker hub"
-        //         }
-        //     }
-        // }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    def pipelineId = env.BUILD_ID
+                    sh "docker tag liferay-jenkins-cicd-liferay:7.4.13-u112 ${DOCKER_IMAGE}:latest"
+                    sh "docker push ${DOCKER_IMAGE}:latest"
+                    echo "Pushed latest version image to docker hub"
+                }
+            }
+        }
 
         // stage('Deploy on Remote Server') {
         //     steps {
