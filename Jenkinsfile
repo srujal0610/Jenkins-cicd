@@ -61,9 +61,9 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'st07061901-worker-node', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
                         sh '''
-                            sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@192.168.1.218 \
+                            ssh -o StrictHostKeyChecking=no liferay@192.168.1.218 \
                             "cd /opt/liferay && \
-                            docker pull ${DOCKER_IMAGE}:latest
+                            docker pull ${DOCKER_IMAGE}:latest && \
                             docker-compose restart && \
                             echo 'Started the deployment stage' && \
                             echo 'Deployment completed and successful'"
