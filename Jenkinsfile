@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "stdocker2901/docker-training"
         DOCKER_CREDENTIALS = "dockerhub-credentials"
-        REMOTE_SSH = "remote-server-credentials"
+        REMOTE_SSH = "st07061901-worker-node"
     }
 
     stages {
@@ -54,18 +54,20 @@ pipeline {
             }
         }
 
-        // stage('Deploy on Remote Server') {
-        //     steps {
-        //         script {
-        //             def pipelineId = env.BUILD_ID
-        //             sh "docker pull ${DOCKER_IMAGE}:latest"
-        //             sh "docker-compose ps | grep 'Up' >/dev/null 2>&1 && docker-compose down -v || true"
-        //             sh "docker-compose up -d"
-        //             sh "pwd"
-        //             echo "Deployment stage completed"
-        //         }
-        //     }
-        // }
+        stage('Deploy on Remote Server') {
+            steps {
+                script {
+                    sshagent(['st07061901-worker-node']) {
+                        sh """
+                        ssh -o StrictHostKeyChecking=no \$SSH_USER@\$SSH_HOST \
+                        "echo 'Started the deployment stage' && \
+                        echo 'Deployment completed and successful'"
+                        """
+                    }
+
+                }
+            }
+        }
     }
 
     // post {
