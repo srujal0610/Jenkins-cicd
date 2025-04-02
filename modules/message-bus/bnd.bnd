@@ -1,0 +1,4 @@
+Bundle-Name: message-bus
+Bundle-SymbolicName: com.stpl.training.message.bus
+Bundle-Version: 1.0.0
+Export-Package: com.stpl.training.message.bus.publisher

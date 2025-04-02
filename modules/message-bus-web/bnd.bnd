@@ -1,0 +1,4 @@
+Bundle-Name: message-bus-web
+Bundle-SymbolicName: com.stpl.message.bus.web
+Bundle-Version: 1.0.0
+Export-Package: com.stpl.message.bus.web.constants

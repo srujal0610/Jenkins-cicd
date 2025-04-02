@@ -1,0 +1,17 @@
+// Check GETTING_STARTED.markdown for information regarding usage.
+
+//dependencies {
+//    classpath group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "4.0.38"
+//}
+
+//plugins {
+//    id "com.liferay.workspace" version "9.0.12"
+//}
+
+repositories {
+    mavenLocal()
+    maven { url "https://repository.liferay.com/nexus/content/groups/public" }
+}
+
+
+
