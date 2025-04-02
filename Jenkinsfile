@@ -57,11 +57,13 @@ pipeline {
         stage('Deploy on Remote Server') {
             steps {
                 script {
-                    sshagent(['st07061901-worker-node']) {
+                    withCredentials([usernamePassword(credentialsId: 'st07061901-worker-node', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
                         sh """
-                        ssh -o StrictHostKeyChecking=no \$SSH_USER@\$SSH_HOST \
-                        "echo 'Started the deployment stage' && \
-                        echo 'Deployment completed and successful'"
+                            sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@192.168.1.218 \
+                            "whoami && \
+                            pwd && \
+                            echo 'Started the deployment stage' && \
+                            echo 'Deployment completed and successful'"
                         """
                     }
 
