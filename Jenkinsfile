@@ -46,7 +46,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    sh "docker tag liferay-jenkins-cicd-liferay:7.4.13-u112 ${DOCKER_IMAGE}:pipelineId"
+                    sh "docker tag liferay-jenkins-cicd-liferay:7.4.13-u112 ${DOCKER_IMAGE}:${PIPELINE_ID}"
                     sh "docker push ${DOCKER_IMAGE}:${PIPELINE_ID}"
                     echo "Pushed docker image with name as ${DOCKER_IMAGE}:${PIPELINE_ID}"
                 }
