@@ -25,7 +25,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def pipelineId = env.BUILD_ID
                     sh "chmod +x gradlew"
                     sh "./gradlew clean"
                     sh "./gradlew buildDockerImage -Pliferay.workspace.environment=prod"
@@ -48,8 +47,8 @@ pipeline {
                 script {
                     def pipelineId = env.BUILD_ID
                     sh "docker tag liferay-jenkins-cicd-liferay:7.4.13-u112 ${DOCKER_IMAGE}:pipelineId"
-                    sh "docker push ${DOCKER_IMAGE}:pipelineId"
-                    echo "Pushed docker image with name as ${DOCKER_IMAGE}:pipelineId"
+                    sh "docker push ${DOCKER_IMAGE}:${pipelineId}"
+                    echo "Pushed docker image with name as ${DOCKER_IMAGE}:${pipelineId}"
                 }
             }
         }
@@ -67,7 +66,7 @@ pipeline {
                             docker-compose down -v && \
                             echo "compose down successfully" && \
                             rm -r liferay_version.sh && \
-                            echo "export DOCKER_IMAGE="pipelineId" >> liferay_version.sh && \
+                            echo "export DOCKER_IMAGE="${pipelineId}" >> liferay_version.sh && \
                             chmod +x liferay_version.sh && \
                             source liferay_up.sh && \
                             docker-compose up -d && \
