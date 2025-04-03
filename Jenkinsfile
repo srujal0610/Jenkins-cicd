@@ -5,6 +5,7 @@ pipeline {
         DOCKER_IMAGE = "stdocker2901/docker-training"
         DOCKER_CREDENTIALS = "dockerhub-credentials"
         REMOTE_SSH = "st07061901-worker-node"
+        PIPELINE_ID = "${env.BUILD_ID}"
     }
 
     stages {
@@ -45,10 +46,9 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    def pipelineId = env.BUILD_ID
                     sh "docker tag liferay-jenkins-cicd-liferay:7.4.13-u112 ${DOCKER_IMAGE}:pipelineId"
-                    sh "docker push ${DOCKER_IMAGE}:${pipelineId}"
-                    echo "Pushed docker image with name as ${DOCKER_IMAGE}:${pipelineId}"
+                    sh "docker push ${DOCKER_IMAGE}:${PIPELINE_ID}"
+                    echo "Pushed docker image with name as ${DOCKER_IMAGE}:${PIPELINE_ID}"
                 }
             }
         }
@@ -56,7 +56,6 @@ pipeline {
         stage('Deploy on Remote Server') {
             steps {
                 script {
-                    def pipelineId = env.BUILD_ID
                     withCredentials([usernamePassword(credentialsId: 'st07061901-liferay-user', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
                         sh '''
                             sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@192.168.1.218 \
