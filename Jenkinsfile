@@ -60,23 +60,21 @@ pipeline {
                     def pipelineId = env.BUILD_ID
                     withCredentials([usernamePassword(credentialsId: 'st07061901-liferay-user', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
                         sh """
-                            sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no $SSH_USER@192.168.1.218 \
-                            "echo ${pipelineId}
-                            
-                            whoami && \
-                            pwd && \
-                            cd /opt/liferay && \
-                            docker-compose down -v && \
-                            echo "compose down successfully" && \
-                            
-                            rm -r .env && \
-                            echo "DOCKER_IMAGE=${pipelineId}" >> .env && \
-                            chmod +x .env && \
-                            cat .env && \
-
-                            docker-compose up -d && \
-                            echo 'Started the deployment stage' && \
-                            echo 'Deployment completed and successful'"
+                            sshpass -p "\$SSH_PASS" ssh -o StrictHostKeyChecking=no "\$SSH_USER@192.168.1.218" <<-'EOF'
+                                echo "${pipelineId}"
+                                whoami
+                                pwd
+                                cd /opt/liferay
+                                docker-compose down -v
+                                echo "compose down successfully"
+                                rm -f .env # use -f to avoid errors if the file does not exist
+                                echo "DOCKER_IMAGE=${pipelineId}" > .env # use > instead of >> to overwrite
+                                chmod +x .env
+                                cat .env
+                                docker-compose up -d
+                                echo 'Started the deployment stage'
+                                echo 'Deployment completed and successful'
+                            EOF
                         """
                     }
                 }
