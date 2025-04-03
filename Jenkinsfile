@@ -74,6 +74,7 @@ pipeline {
                                 docker-compose up -d
                                 echo 'Started the deployment stage'
                                 echo 'Deployment completed and successful'
+                                exit 0
                             EOF
                         """
                     }
