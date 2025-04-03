@@ -70,6 +70,7 @@ pipeline {
                             echo 'export DOCKER_IMAGE="${pipelineId}"' >> liferay_version.sh && \
                             chmod +x liferay_version.sh && \
                             source liferay_up.sh && \
+                            echo $DOCKER_IMAGE
                             docker-compose up -d && \
                             echo 'Started the deployment stage' && \
                             echo 'Deployment completed and successful'"
