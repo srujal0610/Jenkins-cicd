@@ -65,6 +65,7 @@ pipeline {
                                 whoami
                                 pwd
                                 cd /opt/liferay
+                                source .env
                                 docker-compose down -v
                                 echo "compose down successfully"
                                 rm -f .env # use -f to avoid errors if the file does not exist
