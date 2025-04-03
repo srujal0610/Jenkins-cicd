@@ -66,12 +66,10 @@ pipeline {
                             cd /opt/liferay && \
                             docker-compose down -v && \
                             echo "compose down successfully" && \
-                            rm -r liferay_version.sh && \
-                            echo ${pipelineId}
-                            echo 'export DOCKER_IMAGE=${pipelineId}' > liferay_version.sh && \
-                            chmod +x liferay_version.sh && \
-                            source liferay_up.sh && \
-                            echo $DOCKER_IMAGE
+                            rm -r .env && \
+                            echo 'DOCKER_IMAGE=${pipelineId}' > .env && \
+                            chmod +x .env && \
+                            cat .env && \
                             docker-compose up -d && \
                             echo 'Started the deployment stage' && \
                             echo 'Deployment completed and successful'"
